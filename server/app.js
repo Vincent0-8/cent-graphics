@@ -21,7 +21,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/palettes', paletteRoutes);
 
 const MONGO_URI = process.env.MONGO_URI;
-const PORT = process.env.PORT;
+const PORT = process.env.PORT || 8000;
 
 
 const connectDB = async () => {

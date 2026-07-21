@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { loginUser, registerUser } from '../../api/index.js'
 import './Auth.css'
 
 function Auth() {
@@ -17,25 +18,7 @@ function Auth() {
     }
 
     const handleSubmit = async (e) => {
-        e.preventDefault()
-        const BASE_URL = 'http://localhost:8000/api'
-        const url = isLogin ? `${BASE_URL}/auth/login` : `${BASE_URL}/auth/register`
-
-        const response = await fetch(url, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(formData)
-        })
-
-        const data = await response.json()
-
-        if (data.token) {
-            localStorage.setItem('token', data.token)
-            localStorage.setItem('user', JSON.stringify(data.result))
-            window.location.href = '/'  // ganti navigate('/') ke ini
-        } else {
-            alert(data.msg)
-        }
+       const data = isLogin ? await loginUser(formData) : await registerUser(formData)
     }
 
     return (
