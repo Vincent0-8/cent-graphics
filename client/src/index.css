@@ -8,13 +8,7 @@ html{
 }
 
 :root {
-  /* ====================================================
-     1. MIYAMA GRAPHICS REFERENCE PALETTE (Pastel)
-     Ini adalah warna asli dari gambar referensi kamu.
-     Gaya desain ini mengandalkan Hitam (#111111) sebagai 
-     warna utama untuk teks & tombol, sedangkan warna pastel 
-     hanya dipakai untuk background / elemen dekorasi (blob).
-     ==================================================== */
+ 
   --color-dark: #111111;
   --color-light: white;
   --color-bg: #F7F3EF;

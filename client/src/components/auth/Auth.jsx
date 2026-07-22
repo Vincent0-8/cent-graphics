@@ -17,14 +17,24 @@ function Auth() {
         setFormData({ ...formData, [e.target.name]: e.target.value })
     }
 
-    const handleSubmit = async (e) => {
-       const data = isLogin ? await loginUser(formData) : await registerUser(formData)
+    const handleSubmit = async () => {
+        const data = isLogin ? await loginUser(formData) : await registerUser(formData)
+        if (data.token) {
+            localStorage.setItem('token', data.token)
+            localStorage.setItem('user', JSON.stringify(data.result))
+            window.location.href = '/'
+        } else {
+            alert(data.msg || 'Something went wrong')
+        }
     }
 
     return (
         <main className="auth-container">
             <div className="auth-card">
-                <h1>{isLogin ? 'Login' : 'Register'}</h1>
+                <h1>{isLogin ? 'Welcome back' : 'Join Cent Graphics'}</h1>
+                <p className="auth-subtitle">
+                    {isLogin ? 'Login to access your collection' : 'Create an account to save palettes'}
+                </p>
                 <div className="auth-form">
                     {!isLogin && (
                         <input
@@ -36,7 +46,7 @@ function Auth() {
                     <input
                         name="email"
                         type="email"
-                        placeholder="Email"
+                        placeholder="Email address"
                         onChange={handleChange}
                     />
                     <input
@@ -49,16 +59,19 @@ function Auth() {
                         <input
                             name="confirmPassword"
                             type="password"
-                            placeholder="Confirm Password"
+                            placeholder="Confirm password"
                             onChange={handleChange}
                         />
                     )}
-                    <button onClick={handleSubmit}>
-                        {isLogin ? 'Login' : 'Register'}
+                    <button className="auth-submit-btn" onClick={handleSubmit}>
+                        {isLogin ? 'Login' : 'Create account'}
                     </button>
                 </div>
-                <p onClick={() => setIsLogin(prev => !prev)} className="auth-switch">
-                    {isLogin ? "Don't have an account? Register" : "Already have an account? Login"}
+                <p className="auth-switch" onClick={() => setIsLogin(prev => !prev)}>
+                    {isLogin
+                        ? <span>Don't have an account? <strong>Register</strong></span>
+                        : <span>Already have an account? <strong>Login</strong></span>
+                    }
                 </p>
             </div>
         </main>

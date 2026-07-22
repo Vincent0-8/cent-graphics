@@ -26,13 +26,17 @@ const [savedPalettes, setSavedPalettes] = useState( () => {
 
 /// function untuk menyimpan palette ke localStorage
 const handleSave = (paletteId) => {
+     const token = localStorage.getItem('token')
+    
+    if (!token) {
+        alert('Please login first to save palettes to your collection')
+        return
+    }
+
     if (!savedPalettes.includes(paletteId)) {
         const updatedPalettes = [...savedPalettes, paletteId]
         setSavedPalettes(updatedPalettes)
         localStorage.setItem('saved-palettes', JSON.stringify(updatedPalettes))
-        console.log("Added", paletteId)
-    } else {
-        console.log("Already added", paletteId)
     }
 }
 
@@ -55,7 +59,8 @@ const collectionPalettes = allPalettes.filter(p => savedPalettes.includes(p.id))
                     <h1 className="title-cta">COLORIZE YOUR WORLD <br />WITH US</h1>
 
                     <p>Elevate your brand identity with premium color palettes and typography curated by <strong>Cent Graphics</strong>. By combining precise visual elements, we deliver impactful and expressive designs tailored to today's evolving trends. Partner with us and colorize your digital presence today.</p>
-                    <button>Get in Touch</button>
+
+                    <button className="cta-btn">Get in Touch</button>
                     
                 </div>
 
@@ -88,6 +93,8 @@ const collectionPalettes = allPalettes.filter(p => savedPalettes.includes(p.id))
             {/* palettes */}
                 <h2 id="palettes" className="palette-title">Palettes Collection</h2>
 
+                <p className="palette-subtitle">Browse curated color palettes for your next design project</p>
+
             <div className="container-palettes">
                
                 {palettes.map(palette => (
@@ -98,7 +105,7 @@ const collectionPalettes = allPalettes.filter(p => savedPalettes.includes(p.id))
                                 <div key={p.id} className="palette-card">
                                     <p className="palette-name">{p.name}</p>
                                     <button className={palette.editionClass} onClick={() => {handleCopy(p.id), handleSave(p.id)}}>{savedPalettes.includes(p.id) ? "✓ Saved" : "+ Add to Collection"}</button>
-                                    <div className="palette-colors" style={{ display: "flex" }}>
+                                    <div className="palette-colors">
                                         {p.colors.map(color => (
                                             <div key={color} className="color-item">
                                                 <div style={{ width: "60px", height: "60px", backgroundColor: color, borderRadius: "8px", border: "2px solid white" }}></div>

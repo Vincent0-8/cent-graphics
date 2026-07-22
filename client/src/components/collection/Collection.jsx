@@ -1,53 +1,81 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import palettes from "../data/palettes";
-import "./Collection.css"
-
-
+import "./Collection.css";
 
 function Collection() {
+    const [copiedHex, setCopiedHex] = useState(null);
+    const [savedPalettes, setSavedPalettes] = useState(
+        JSON.parse(localStorage.getItem('saved-palettes')) || []
+    );
 
-    const [copiedHex, setCopiedHex] = useState(null); 
     const copyHexCode = (hex) => {
-        navigator.clipboard.writeText(hex)
-        setCopiedHex(hex)
-        setTimeout(() => setCopiedHex(null), 1500)
-    }
+        navigator.clipboard.writeText(hex);
+        setCopiedHex(hex);
+        setTimeout(() => setCopiedHex(null), 1500);
+    };
 
-   const [savedPalettes, setSavedPalettes] = useState(
-  JSON.parse(localStorage.getItem('saved-palettes')) || []
-)
-    const allPalettes = palettes.flatMap(edition => edition.palettes)
-    const collectionPalettes = allPalettes.filter(p => savedPalettes.includes(p.id))
+    const handleRemove = (paletteId) => {
+        const updated = savedPalettes.filter(id => id !== paletteId);
+        setSavedPalettes(updated);
+        localStorage.setItem('saved-palettes', JSON.stringify(updated));
+    };
 
-    /// function untuk menghapus palette dari localStorage
-const handleRemove = (paletteId) => {
-  const updated = savedPalettes.filter(id => id !== paletteId)
-  setSavedPalettes(updated)
-  localStorage.setItem('saved-palettes', JSON.stringify(updated))
-}
+    const allPalettes = palettes.flatMap(edition => edition.palettes);
+    const collectionPalettes = allPalettes.filter(p => savedPalettes.includes(p.id));
+
     return (
-        <main>
-            <h1>Collection</h1>
+        <main className="collection-container">
+            <div className="collection-header">
+                <h1>My Collection</h1>
+                <p className="collection-count">
+                    <strong>{collectionPalettes.length}</strong> palette{collectionPalettes.length !== 1 ? 's' : ''} saved
+                </p>
+            </div>
 
-             {collectionPalettes.map(p => (
-                <div key={p.id} className="palette-card">
-                    <p className="palette-name">{p.name}</p>
-                    <button className={`palette-del-button ${palettes.editionClass}`} onClick={() => handleRemove(p.id)}>Remove from Collection</button>
-                    
-                    <div className="palette-colors" style={{ display: "flex" }}>
-                        {p.colors.map(color => (
-                            <div key={color} className="color-item">
-                                <div style={{ width: "60px", height: "60px", backgroundColor: color, borderRadius: "8px", border: "2px solid white" }}></div>
-                                <p className="hex-code" onClick={() => copyHexCode(color)}>{ copiedHex === color ? "Copied!" : color}</p>
-                            </div>
-                        ))}
-                    </div>
-                  
-                    
+            {collectionPalettes.length === 0 ? (
+                <div className="collection-empty">
+                    <span className="collection-empty-icon">🎨</span>
+                    <h2>No palettes yet</h2>
+                    <p>Browse our collection and save your favorites to see them here.</p>
+                    <Link to="/#palettes" className="collection-empty-btn">
+                        Browse Palettes
+                    </Link>
                 </div>
-            ))}
+            ) : (
+                <div className="collection-grid">
+                    {collectionPalettes.map(p => (
+                        <div key={p.id} className="collection-card">
+                            <p className="collection-card-name">{p.name}</p>
+                            <button
+                                className="collection-remove-btn"
+                                onClick={() => handleRemove(p.id)}
+                            >
+                                Remove
+                            </button>
+                            <div className="collection-colors">
+                                {p.colors.map(color => (
+                                    <div key={color} className="collection-color-item">
+                                        <div
+                                            className="collection-color-swatch"
+                                            style={{ backgroundColor: color }}
+                                            onClick={() => copyHexCode(color)}
+                                        />
+                                        <span
+                                            className={`collection-hex ${copiedHex === color ? 'copied' : ''}`}
+                                            onClick={() => copyHexCode(color)}
+                                        >
+                                            {copiedHex === color ? 'Copied!' : color}
+                                        </span>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            )}
         </main>
-    )
+    );
 }
 
-export default Collection
+export default Collection;
