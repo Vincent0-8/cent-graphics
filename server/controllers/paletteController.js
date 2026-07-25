@@ -13,6 +13,18 @@ export const getPalettes = async (req, res) => {
   }
 };
 
+export const getSavedPalettes = async (req, res) => {
+    try {
+    // Ambil data user beserta detail palette yang di-save
+    const user = await User.findById(req.userId).populate("savedPalettes");
+
+    // Kirim array berisi data palette lengkap ke Frontend
+    res.status(200).json(user.savedPalettes);
+  } catch (error) {
+    res.status(500).json({ msg: "Something went wrong" });
+  }
+};
+
 //submit new palette
 export const createPalette = async (req, res) => {
   try {

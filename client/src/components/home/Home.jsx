@@ -22,22 +22,29 @@ function Home() {
     return saved ? JSON.parse(saved) : [];
   });
 
-  /// function untuk menyimpan palette ke localStorage
-  const handleSave = (paletteId) => {
-    const token = localStorage.getItem("token");
+  ///modal showup
+  const [showModal, setShowModal] = useState(false)
 
+  /// function untuk menyimpan palette ke localStorage
+const handleSave = async (paletteId) => {
+    const token = localStorage.getItem('token')
+    
     if (!token) {
-      alert("Please login first to save palettes to your collection");
-      return;
+        setShowModal(true)
+        return
     }
 
     if (!savedPalettes.includes(paletteId)) {
-      const updatedPalettes = [...savedPalettes, paletteId];
-      setSavedPalettes(updatedPalettes);
-      localStorage.setItem("saved-palettes", JSON.stringify(updatedPalettes));
+        const updatedPalettes = [...savedPalettes, paletteId]
+        setSavedPalettes(updatedPalettes)
+        localStorage.setItem('saved-palettes', JSON.stringify(updatedPalettes))
+        
+        await fetch(`https://cent-graphics-production.up.railway.app/api/palettes/${paletteId}/save`, {
+            method: 'POST',
+            headers: { Authorization: `Bearer ${token}` }
+        })
     }
-  };
-
+}
   // 1. Flatten semua palette cards jadi satu array
   const allPalettes = palettes.flatMap((edition) => edition.palettes);
 
@@ -196,19 +203,19 @@ function Home() {
               <div className="typo-weights">
                 <div className="weight-row">
                   <span className="w-bold">Bold</span>
-                  <span className="w-size">32 / 44</span>
+                  <span className="w-size">32/44</span>
                 </div>
                 <div className="weight-row">
                   <span className="w-medium">Medium</span>
-                  <span className="w-size">20 / 32</span>
+                  <span className="w-size">20/32</span>
                 </div>
                 <div className="weight-row">
                   <span className="w-regular">Regular</span>
-                  <span className="w-size">16 / 28</span>
+                  <span className="w-size">16/28</span>
                 </div>
                 <div className="weight-row">
                   <span className="w-light">Light</span>
-                  <span className="w-size">14 / 24</span>
+                  <span className="w-size">14/24</span>
                 </div>
               </div>
             </div>
@@ -239,19 +246,19 @@ function Home() {
               <div className="typo-weights">
                 <div className="weight-row">
                   <span className="w-bold">Bold</span>
-                  <span className="w-size">32 / 44</span>
+                  <span className="w-size">32/44</span>
                 </div>
                 <div className="weight-row">
                   <span className="w-medium">Medium</span>
-                  <span className="w-size">20 / 32</span>
+                  <span className="w-size">20/32</span>
                 </div>
                 <div className="weight-row">
                   <span className="w-regular">Regular</span>
-                  <span className="w-size">16 / 28</span>
+                  <span className="w-size">16/28</span>
                 </div>
                 <div className="weight-row">
                   <span className="w-light">Light</span>
-                  <span className="w-size">14 / 24</span>
+                  <span className="w-size">14/24</span>
                 </div>
               </div>
             </div>
@@ -307,6 +314,23 @@ function Home() {
           <strong>Cent Graphic &copy; 2026</strong>
         </div>
       </div>
+
+      {showModal && (
+    <div className="modal-overlay" onClick={() => setShowModal(false)}>
+        <div className="modal-card" onClick={e => e.stopPropagation()}>
+            <h2>Login Required</h2>
+            <p>Please login to save palettes to your collection.</p>
+            <div className="modal-actions">
+                <button className="modal-login-btn" onClick={() => window.location.href = '/auth'}>
+                    Login
+                </button>
+                <button className="modal-cancel-btn" onClick={() => setShowModal(false)}>
+                    Cancel
+                </button>
+            </div>
+        </div>
+    </div>
+)}
     </main>
   );
 }

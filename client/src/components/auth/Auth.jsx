@@ -17,16 +17,24 @@ function Auth() {
         setFormData({ ...formData, [e.target.name]: e.target.value })
     }
 
-    const handleSubmit = async () => {
-        const data = isLogin ? await loginUser(formData) : await registerUser(formData)
-        if (data.token) {
-            localStorage.setItem('token', data.token)
-            localStorage.setItem('user', JSON.stringify(data.result))
-            window.location.href = '/'
-        } else {
-            alert(data.msg || 'Something went wrong')
-        }
+const handleSubmit = async () => {
+    const data = isLogin ? await loginUser(formData) : await registerUser(formData)
+    if (data.token) {
+        localStorage.setItem('token', data.token)
+        localStorage.setItem('user', JSON.stringify(data.result))
+        
+        // fetch saved palettes dari backend
+        const savedRes = await fetch(`https://cent-graphics-production.up.railway.app/api/auth/saved`, {
+            headers: { Authorization: `Bearer ${data.token}` }
+        })
+        const savedData = await savedRes.json()
+        localStorage.setItem('saved-palettes', JSON.stringify(savedData.savedPalettes || []))
+        
+        window.location.href = '/'
+    } else {
+        alert(data.msg || 'Something went wrong')
     }
+}
 
     return (
         <main className="auth-container">

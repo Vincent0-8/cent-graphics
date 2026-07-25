@@ -8,14 +8,15 @@ function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
-  const [user, setUser] = useState(JSON.parse(localStorage.getItem('user')))
+  const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")));
 
   const handleLogout = () => {
-    localStorage.removeItem('token')
-    localStorage.removeItem('user')
-    setUser(null)
-    window.location.href = '/'
-}
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    localStorage.removeItem("saved-palettes"); // tambah ini
+    setUser(null);
+    window.location.href = "/";
+  };
 
   return (
     <nav className="navbar">
@@ -47,10 +48,14 @@ function Navbar() {
           <Link to="/collection">COLLECTION</Link>
         </li>
         {user ? (
-    <li onClick={handleLogout} style={{cursor: 'pointer'}}>LOGOUT</li>
-) : (
-    <li><Link to="/auth">LOGIN</Link></li>
-)}
+          <li onClick={handleLogout} className="li-logout">
+            LOGOUT
+          </li>
+        ) : (
+          <li>
+            <Link to="/auth">LOGIN</Link>
+          </li>
+        )}
       </ul>
       <button className="navbar-menu-btn" onClick={toggleMenu}>
         <RxHamburgerMenu />

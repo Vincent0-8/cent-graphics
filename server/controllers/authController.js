@@ -66,4 +66,13 @@ const signup = async (req, res) => {
   }
 };
 
-export { login, signup };
+const getSavedPalettes = async (req, res) => {
+    try {
+        const user = await User.findById(req.userId)
+        res.status(200).json({ savedPalettes: user.savedPalettes })
+    } catch (error) {
+        res.status(500).json({ msg: 'Something went wrong' })
+    }
+}
+
+export { login, signup, getSavedPalettes };

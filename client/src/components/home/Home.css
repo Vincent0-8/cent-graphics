@@ -4,6 +4,82 @@ main {
   box-sizing: border-box;
 }
 
+/* MODAL */
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 999;
+    backdrop-filter: blur(4px);
+}
+
+.modal-card {
+    background: white;
+    border-radius: 2rem;
+    padding: 4rem;
+    max-width: 420px;
+    width: 90%;
+    text-align: center;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+}
+
+.modal-card h2 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin: 0 0 1rem 0;
+}
+
+.modal-card p {
+    font-size: 1.4rem;
+    color: #666;
+    margin: 0 0 3rem 0;
+    line-height: 1.6;
+}
+
+.modal-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+}
+
+.modal-login-btn {
+    padding: 1.2rem 2.4rem;
+    background: var(--color-dark);
+    color: white;
+    border: none;
+    border-radius: 5rem;
+    font-size: 1.4rem;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: var(--font-primary);
+    transition: background 0.2s ease;
+}
+
+.modal-login-btn:hover {
+    background: #333;
+}
+
+.modal-cancel-btn {
+    padding: 1.2rem 2.4rem;
+    background: transparent;
+    color: var(--color-dark);
+    border: 1.5px solid var(--color-dark);
+    border-radius: 5rem;
+    font-size: 1.4rem;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: var(--font-primary);
+    transition: all 0.2s ease;
+}
+
+.modal-cancel-btn:hover {
+    background: var(--color-dark);
+    color: white;
+}
+
 /* ===== HERO ===== */
 .container-cta {
   display: flex;
@@ -84,7 +160,7 @@ main {
 .container-offer h2 {
   font-size: 3rem;
   font-weight: 700;
-  margin: 0 0 1rem 0;
+  margin-bottom: 6rem;
   letter-spacing: -0.02em;
 }
 
@@ -341,7 +417,6 @@ main {
 .typography-body {
   display: flex;
   justify-content: space-between;
-  align-items: flex-end;
   margin-bottom: 3rem;
   border-bottom: 1px solid rgba(0,0,0,0.08);
   padding-bottom: 3rem;
@@ -498,4 +573,103 @@ main {
   text-align: center;
   font-size: 1.2rem;
   color: rgba(255,255,255,0.4);
+}
+
+@media (max-width: 768px) {
+    .container-cta {
+        flex-direction: column;
+        padding: 4rem 2rem;
+        text-align: center;
+    }
+
+    .home-cta-group {
+        width: 100%;
+        align-items: center;
+    }
+
+    .home-cta-group h1.title-cta {
+        font-size: 3rem;
+    }
+
+    .home-cta-group p {
+        max-width: 100%;
+    }
+
+    .cta-img {
+        width: 200px;
+        height: 200px;
+    }
+
+    .container-offer {
+        padding: 4rem 2rem;
+    }
+
+    .feature-list {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .feature {
+        width: 80%;
+    }
+
+    .palette-edition {
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
+
+    .container-typography {
+        padding: 4rem 2rem;
+    }
+
+    .typography-card {
+        width: 100%;
+        padding: 2rem;
+    }
+
+    .typo-huge {
+        font-size: 4rem;
+    }
+
+    .typography-body {
+        gap: 2rem;
+    }
+
+    .weight-row {
+        width: 100%;
+    }
+
+    .contact {
+        padding: 4rem 2rem 2rem;
+    }
+
+    .container-contact {
+        flex-direction: row;
+    }
+
+    .contact-info {
+        width: 100%;
+    }
+}
+
+@media (max-width: 1024px) {
+    .container-cta {
+        padding: 6rem 4rem;
+    }
+
+    .home-cta-group h1.title-cta {
+        font-size: 3.5rem;
+    }
+
+    .container-offer {
+        padding: 4rem;
+    }
+
+    .container-typography {
+        padding: 4rem;
+    }
+
+    .contact {
+        padding: 2rem;
+    }
 }
