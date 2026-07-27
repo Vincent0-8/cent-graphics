@@ -48,7 +48,7 @@ li.li-logout:hover {
 }
 
 
-@media (max-width: 768px) {
+@media (max-width: 870px) {
   .navbar {
     position: sticky;
   }
