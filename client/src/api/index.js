@@ -1,4 +1,4 @@
-const BASE_URL = 'https://cent-graphics-production.up.railway.app/api';
+const BASE_URL = 'https://cent-graphics-production.up.railway.app/api'
 
 export const getPalettes = () =>
     fetch(`${BASE_URL}/palettes`).then(res => res.json());

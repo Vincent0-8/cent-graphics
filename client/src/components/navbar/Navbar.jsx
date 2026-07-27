@@ -48,14 +48,13 @@ function Navbar() {
           <Link to="/collection">COLLECTION</Link>
         </li>
         {user ? (
-          <li onClick={handleLogout} className="li-logout">
-            LOGOUT
-          </li>
-        ) : (
-          <li>
-            <Link to="/auth">LOGIN</Link>
-          </li>
-        )}
+    <>
+        <li className="navbar-username">👤 {user.username}</li>
+        <li onClick={handleLogout} style={{cursor: 'pointer'}}>LOGOUT</li>
+    </>
+) : (
+    <li><Link to="/auth">LOGIN</Link></li>
+)}
       </ul>
       <button className="navbar-menu-btn" onClick={toggleMenu}>
         <RxHamburgerMenu />

@@ -42,6 +42,11 @@ li.li-logout:hover {
     color: var(--color-red);
 }
 
+.navbar-username {
+    color: var(--color-blue);
+    font-weight: 700;
+}
+
 
 @media (max-width: 768px) {
   .navbar {
